@@ -15,7 +15,7 @@
 * **Data Input**: Easily handles new data and sensors.
 * **Hardware Support via Plugins**: Supports new hardware through plugins for API endpoints and specific robot hardware connections to `ROS2`, `Zenoh`, and `CycloneDDS`. (We recommend `Zenoh` for all new development).
 * **Web-Based Debugging Display**: Monitor the system in action with WebSim (available at http://localhost:8000/) for easy visual debugging.
-* **Pre-configured Endpoints**: Supports Text-to-Speech, multiple LLMs from OpenAI, xAI, DeepSeek, Anthropic, Meta, Gemini, NearAI and multiple Visual Language Models (VLMs) with pre-configured endpoints for each service.
+* **Pre-configured Endpoints**: Supports Text-to-Speech, multiple LLMs (from OpenAI, xAI, DeepSeek, Anthropic, Meta, Gemini, NearAI), and various Visual Language Models (VLMs) with pre-configured endpoints for each service.
 
 ## Architecture Overview
 ![Artboard 1@4x 1 (1)](https://github.com/user-attachments/assets/dd91457d-010f-43d8-960e-d1165834aa58)
@@ -36,6 +36,7 @@ git clone https://github.com/OpenMind/OM1.git
 cd OM1
 git submodule update --init
 uv venv
+source .venv/bin/activate
 ```
 
 ### Install Dependencies
@@ -86,7 +87,7 @@ elif output_interface.action == "shake paw":
 ...
 ```
 
-If your robot hardware does not yet provide a suitable HAL (hardware abstraction layer), traditional robotics approaches such as RL (reinforcement learning) in concert with suitable simulation environments (Unity, Gazebo), sensors (such as hand mounted ZED depth cameras), and custom VLAs will be needed for you to create one. It is further assumed that your HAL accepts motion trajectories, provides battery and thermal management/monitoring, and calibrates and tunes sensors such as IMUs, LIDARs, and magnetometers.
+If your robot hardware does not yet provide a suitable HAL (Hardware Abstraction Layer), traditional robotics approaches such as RL (reinforcement learning) in concert with suitable simulation environments (Unity, Gazebo), sensors (such as hand mounted ZED depth cameras), and custom VLAs will be needed for you to create one. It is further assumed that your HAL accepts motion trajectories, provides battery and thermal management/monitoring, and calibrates and tunes sensors such as IMUs, LIDARs, and magnetometers.
 
 OM1 can interface with your HAL via USB, serial, ROS2, CycloneDDS, Zenoh, or websockets. For an example of an advanced humanoid HAL, please see [Unitree's C++ SDK](https://github.com/unitreerobotics/unitree_sdk2/blob/adee312b081c656ecd0bb4e936eed96325546296/example/g1/high_level/g1_loco_client_example.cpp#L159). Frequently, a HAL, especially ROS2 code, will be dockerized and can then interface with OM1 through DDS middleware or websockets.
 
