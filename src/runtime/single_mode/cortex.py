@@ -507,5 +507,16 @@ class CortexRuntime:
 
             # Trigger the actions
             await self.action_orchestrator.promise(output.actions)
+	    # --- START: New Text Message Handling (Closes #737) ---
+            # Handle text message output if available and valid
+            message = getattr(output, 'message', None)
+
+            if message and isinstance(message, str) and message.strip():
+                # Send valid message to output provider
+                await self.io_provider.send_message(message)
+            else:
+                # Log a warning if the message is empty or invalid
+                logging.warning("Agent produced an empty or non-string message. Skipping text output processing.")
+            # --- END: New Text Message Handling ---
         except Exception as error:
             logging.error(f"Error in cortex tick: {error}")
