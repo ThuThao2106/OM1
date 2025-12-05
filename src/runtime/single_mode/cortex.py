@@ -496,6 +496,16 @@ class CortexRuntime:
                 logging.debug("No output from LLM")
                 return
 
+            # --- CORRECTION FOR ISSUE #737 ---
+            # Architecture rule: Decide -> Communicate -> Act
+            # The message must be sent *before* triggering actions/simulators
+            # to ensure the message is delivered before any resulting action/simulator
+            # promises are generated.
+            if output.message and isinstance(output.message, str) and output.message.strip():
+                logging.debug(f"Sending message: {output.message}")
+                self.io_provider.send_message(output.message)
+            # ----------------------------------
+
             # Trigger the simulators
             await self.simulator_orchestrator.promise(output.actions)
 
